@@ -30,6 +30,10 @@ dependencies {
 //	implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
 //	compileOnly 'org.projectlombok:lombok:1.18.30'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// SLF4J API
+	//implementation 'org.slf4j:slf4j-api:1.5.6'
+	// Logback implementation
+	//testImplementation 'ch.qos.logback:logback-classic:1.4.11'
 
 }
 

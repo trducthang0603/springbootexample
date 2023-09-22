@@ -16,6 +16,7 @@ import java.util.Arrays;
 @Component
 public class LoggingAspect {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Pointcut("within(@org.springframework.stereotype.Repository *)" +
             " || within(@org.springframework.stereotype.Service *)" +
             " || within(@org.springframework.web.bind.annotation.RestController *)")
@@ -34,7 +35,7 @@ public class LoggingAspect {
         log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),
                 joinPoint.getSignature().getName(), e.getCause() != null? e.getCause() : "NULL");
     }
-    @Around("applicationPackagePointcut() && springBeanPointcut()")
+    @Around("applicationPackagePointcut() || springBeanPointcut()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         if (log.isDebugEnabled()) {
             log.debug("Enter: AAAAAAAA {}.{}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
