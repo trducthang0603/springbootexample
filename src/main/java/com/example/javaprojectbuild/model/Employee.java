@@ -1,11 +1,15 @@
 package com.example.javaprojectbuild.model;
 
-import lombok.Data;
+
+
+import com.example.javaprojectbuild.audit.Auditable;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 @Entity
 @Table(name="employees")
-public class Employee {
+@EntityListeners(AuditingEntityListener.class)
+public class Employee extends Auditable<String> {
     private long id;
     private String firstName;
     private String lastName;
