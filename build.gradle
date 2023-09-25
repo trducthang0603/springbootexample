@@ -32,15 +32,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
 	implementation 'io.springfox:springfox-swagger2:3.0.0'
-// https://mvnrepository.com/artifact/org.springframework/spring-jms
+	// https://mvnrepository.com/artifact/org.springframework/spring-jms
 	implementation 'org.springframework:spring-jms:5.3.15'
-
-
-
-
-
-
-
+	// https://mvnrepository.com/artifact/org.glassfish.main.javaee-api/javax.jms
+	implementation 'org.glassfish.main.javaee-api:javax.jms:3.1.2.2'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-activemq
+	implementation 'org.springframework.boot:spring-boot-starter-activemq:2.6.8'
 
 }
 
