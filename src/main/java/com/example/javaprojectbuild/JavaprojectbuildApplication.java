@@ -2,10 +2,14 @@ package com.example.javaprojectbuild;
 
 import javax.jms.ConnectionFactory;
 import com.example.javaprojectbuild.jms.User;
+import com.example.javaprojectbuild.model.Employee;
+import com.example.javaprojectbuild.repository.EmployeeRepository;
 import com.example.javaprojectbuild.service.MessageProcessorImpl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -25,15 +29,18 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 
 @SpringBootApplication
-public class JavaprojectbuildApplication extends SpringBootServletInitializer {
+public class JavaprojectbuildApplication extends SpringBootServletInitializer implements CommandLineRunner {
 	private static Logger logger = LoggerFactory.getLogger(JavaprojectbuildApplication.class);
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(JavaprojectbuildApplication.class);
 	}
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
@@ -78,5 +85,16 @@ public class JavaprojectbuildApplication extends SpringBootServletInitializer {
 		configurer.configure(factory, connectionFactory);
 		// You could still override some of Boot's default if necessary.
 		return factory;
+	}
+	@Override
+	public void run(String... args) throws Exception {
+
+		employeeRepository.save(new Employee("Ramesh", "Fadatare", "ramesh@gmail.com"));
+		employeeRepository.save(new Employee("Tom", "Cruise", "tom@gmail.com"));
+		employeeRepository.save(new Employee("John", "Cena", "john@gmail.com"));
+		employeeRepository.save(new Employee("tony", "stark", "stark@gmail.com"));
+		// get list of employees
+		List<Employee> employees = employeeRepository.findAll();
+		employees.forEach(employee -> System.out.println(employee.toString()));
 	}
 }

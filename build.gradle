@@ -38,6 +38,11 @@ dependencies {
 	implementation 'org.glassfish.main.javaee-api:javax.jms:3.1.2.2'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-activemq
 	implementation 'org.springframework.boot:spring-boot-starter-activemq:2.6.8'
+	// https://mvnrepository.com/artifact/com.github.bumptech.glide/okhttp3-integration
+	implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+
+
+
 
 }
 
