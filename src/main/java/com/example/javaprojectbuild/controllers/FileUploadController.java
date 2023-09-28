@@ -1,6 +1,8 @@
 package com.example.javaprojectbuild.controllers;
 
+import com.example.javaprojectbuild.model.DatabaseFile;
 import com.example.javaprojectbuild.payload.Response;
+import com.example.javaprojectbuild.service.DatabaseFileService;
 import com.example.javaprojectbuild.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,18 +18,18 @@ import java.util.stream.Collectors;
 @RestController
 public class FileUploadController {
     @Autowired
-    private FileStorageService fileStorageService;
+    private DatabaseFileService fileStorageService;
 
     @PostMapping("/uploadFile")
     public Response uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
+        DatabaseFile fileName = fileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
-                .path(fileName)
+                .path(fileName.getFileName())
                 .toUriString();
 
-        return new Response(fileName, fileDownloadUri,
+        return new Response(fileName.getFileName(), fileDownloadUri,
                 file.getContentType(), file.getSize());
     }
 

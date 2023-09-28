@@ -1,9 +1,12 @@
 package com.example.javaprojectbuild.controllers;
 
+import com.example.javaprojectbuild.model.DatabaseFile;
+import com.example.javaprojectbuild.service.DatabaseFileService;
 import com.example.javaprojectbuild.service.FileStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,30 +20,20 @@ import org.springframework.core.io.Resource;
 @RestController
 public class FileDownloadController {
     private static final Logger logger = LoggerFactory.getLogger(FileDownloadController.class);
+//    @Autowired
+//    private FileStorageService fileStorageService;
     @Autowired
-    private FileStorageService fileStorageService;
+    private DatabaseFileService fileStorageService;
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
-
-        // Try to determine file's content type
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            logger.info("Could not determine file type.");
-        }
-
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
+        DatabaseFile databaseFile = fileStorageService.getFile(fileName);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+                .contentType(MediaType.parseMediaType(databaseFile.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + databaseFile.getFileName() + "\"")
+                .body(new ByteArrayResource(databaseFile.getData()));
     }
+
 
 }
