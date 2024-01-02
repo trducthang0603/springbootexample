@@ -3,7 +3,10 @@ package com.example.javaprojectbuild;
 import javax.jms.ConnectionFactory;
 import com.example.javaprojectbuild.jms.User;
 import com.example.javaprojectbuild.model.Employee;
+import com.example.javaprojectbuild.model.Instructor;
+import com.example.javaprojectbuild.model.InstructorDetail;
 import com.example.javaprojectbuild.repository.EmployeeRepository;
+import com.example.javaprojectbuild.repository.InstructorRepository;
 import com.example.javaprojectbuild.service.MessageProcessorImpl;
 
 import org.slf4j.Logger;
@@ -41,6 +44,8 @@ public class JavaprojectbuildApplication extends SpringBootServletInitializer im
 	}
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	@Autowired
+	private InstructorRepository instructorRepository;
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
@@ -96,5 +101,10 @@ public class JavaprojectbuildApplication extends SpringBootServletInitializer im
 		// get list of employees
 		List<Employee> employees = employeeRepository.findAll();
 		employees.forEach(employee -> System.out.println(employee.toString()));
+		Instructor instructor = new Instructor("Ramesh", "Fadatare", "ramesh@gmail.com");
+		InstructorDetail instructorDetail = new InstructorDetail("Java Guides", "Cricket Playing");
+		// associate the objects
+		instructor.setInstructorDetail(instructorDetail);
+		instructorRepository.save(instructor);
 	}
 }

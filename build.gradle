@@ -41,6 +41,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.github.bumptech.glide/okhttp3-integration
 	implementation 'com.squareup.okhttp3:okhttp:4.9.1'
 	implementation 'com.mpatric:mp3agic:0.9.1'
+	implementation 'redis.clients:jedis:3.8.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.0'
 
 
 
